@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { UploadEvent, UploadFile, FileSystemDirectoryEntry, FileSystemFileEntry } from 'ngx-file-drop';
+import { UploadEvent, UploadFile, FileSystemDirectoryEntry, 
+        FileSystemFileEntry } from 'ngx-file-drop';
 
 @Component({
   selector: 'app-root',
