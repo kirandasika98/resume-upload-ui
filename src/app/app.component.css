@@ -12,7 +12,6 @@
     justify-content: center;
     display: flex;
     align-items: center;
-    border-radius: 50px;
     height: 80px;
 }
 
@@ -32,9 +31,24 @@
     border-radius: 50px;
 }
 
+.return-button {
+    width: fit-content; 
+    margin-left: auto; 
+    margin-right: auto; 
+    display: block;
+    color: whitesmoke;
+    background: #03244d;
+    border-radius: 50px;
+}
+
 .title {
     max-width: 100%;
     justify-content: center;
     display: flex;
     align-items: center;
+}
+
+.sidenav {
+    width: fit-content;
+    height: auto;
 }

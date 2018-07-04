@@ -1,40 +1,57 @@
 <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Google+Sans:400|Roboto:400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
-<mat-toolbar class="navbar"><img src="../assets/images/logo.svg"><p class="brand-name">AuburnHacks 2019</p></mat-toolbar>
+<mat-sidenav-container class="all-wrap" fullscreen>
+    <mat-sidenav #sidenav class="sidenav">
+        <mat-toolbar  mat-raised-button class="navbar button">
+            <img src="../assets/images/logo.svg"><p class="brand-name">AuburnHacks 2019</p>
+        </mat-toolbar>
+        <br>
+        <br>
+        <button mat-raised-button class="return-button">Return to Registration</button>
+    </mat-sidenav>
+        
+    <div class="page-wrap">
+        <mat-toolbar  mat-raised-button class="navbar button">
+            <button type="button" mat-icon-button (click)="sidenav.open()" title="Open sidenav">
+                <i class="material-icons" style="left: 0%">toc</i>
+            </button>
+            <img src="../assets/images/logo.svg"><p class="brand-name">AuburnHacks 2019</p>
+        </mat-toolbar>
+        <br>
+        <mat-card>
+            <h1 class="title">Résumé Upload</h1>
+            <p>We're delighted that you wish to submit your résumé for our sponsors to look at!</p>
+                
+            <form>
+                <p>For security reasons, we will only accept files in ".pdf" format. Please make sure you convert your documents before submitting your résumé.</p>
+                <input type="file" name="upload" accept="application/pdf" />
+                <br>
+                <br>
+                <div class="center">
+                    <file-drop headertext="Drop files here" (onFileDrop)="dropped($event)" 
+                    (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)" accepy="application/pdf">
+                    </file-drop>
+                    <div class="upload-table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name(s) of file(s) selected:</th>
+                                </tr>
+                            </thead>
+                            <tbody class="upload-name-style">
+                                <tr *ngFor="let item of files; let i=index">
+                                    <td><strong>{{ item.relativePath }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br>
+                <mat-checkbox color="warn">I agree to the terms and privacy policy.</mat-checkbox>
+                <br><br>
+                <button mat-raised-button class="upload-button">Agree &amp; Upload</button>
+            </form>
+        </mat-card>
+    </div>
 
-<br>
-<mat-card>
-    <h1 class="title">Résumé Upload</h1>
-    <p>We're delighted that you wish to submit your résumé for our sponsors to look at!</p>
-    
-    <form>
-        <p>For security reasons, we will only accept files in ".pdf" format. Please make sure you convert your documents before submitting your résumé.</p>
-        <input type="file" name="upload" accept="application/pdf" />
-        <br>
-        <br>
-        <div class="center">
-            <file-drop headertext="Drop files here" (onFileDrop)="dropped($event)" 
-            (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)" accepy="application/pdf">
-            </file-drop>
-            <div class="upload-table">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Name(s) of file(s) selected:</th>
-                        </tr>
-                    </thead>
-                    <tbody class="upload-name-style">
-                        <tr *ngFor="let item of files; let i=index">
-                            <td><strong>{{ item.relativePath }}</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <br>
-        <mat-checkbox color="warn">You agree to all the terms and privacy policy.</mat-checkbox>
-        <br><br>
-        <button mat-raised-button class="upload-button">Agree &amp; Upload</button>
-    </form>
-
-</mat-card>
+</mat-sidenav-container>
