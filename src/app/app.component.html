@@ -24,7 +24,8 @@
                 
             <form>
                 <p>For security reasons, we will only accept files in ".pdf" format. Please make sure you convert your documents before submitting your résumé.</p>
-                <input type="file" name="upload" accept="application/pdf" />
+                <!-- basic file upload input -->
+                <input type="file" name="upload" accept="application/pdf" (change)="onFileChange($event)"/>
                 <br>
                 <br>
                 <div class="center">
