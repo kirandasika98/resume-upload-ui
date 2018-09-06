@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: resume-ui
+    labels:
+        app: resume-ui
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: resume-ui
+    template:
+        metadata:
+            labels:
+                app: resume-ui
+        spec:
+            containers:
+                - name: web-ui 
+                  image: kirandasika30/resume-ui
+                  imagePullPolicy: Always
+                  ports:
+                  - containerPort: 3000
+                  args:
+                  - --listen_addr=:3000
+                  resources:
+                    requests:
+                      cpu: "15m"
+                      memory: "30Mi"
+                    limits:
+                      cpu: "30m"
+                      memory: "60Mi"
+

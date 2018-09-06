@@ -8,6 +8,7 @@ import { MaterialModule } from './material/material.module';
 import { HttpClientModule } from "@angular/common/http";
 import { FileDropModule } from 'ngx-file-drop';
 import { ResumeService } from './services/resume.service';
+import { RouterModule } from '../../node_modules/@angular/router';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ResumeService } from './services/resume.service';
     FileDropModule,
     HttpClientModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    RouterModule.forRoot([]),
   ],
   providers: [
     ResumeService,
