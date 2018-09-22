@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiEndpoint: "http://resumes.auburnhacks.com/api"
+  apiEndpoint: "https://resumes.auburnhacks.com/api"
 };
