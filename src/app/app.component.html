@@ -1,21 +1,47 @@
 <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400|Roboto:400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
-<mat-sidenav-container ng-if="canUpload" class="all-wrap" fullscreen>
-    <mat-sidenav #sidenav class="sidenav">
-        <mat-toolbar  mat-raised-button class="navbar button">
-            <img src="../assets/images/logo.svg"><p class="brand-name">AuburnHacks 2019</p>
-        </mat-toolbar>
-        <br>
-        <mat-card>
-            <h1 class="title">Résumé Upload</h1>
-            <p>We're delighted that you wish to submit your résumé for our sponsors to look at!</p>
-                
-            <form>
-                <p>For security reasons, we will only accept files in ".pdf" format. Please make sure you convert your documents before submitting your résumé.</p>
-                <div class="center"><input type="file" name="upload" accept="application/pdf" /></div>
-                <br>
-                <mat-checkbox color="warn">I agree to the terms and privacy policy.</mat-checkbox>
-                <br><br>
-                <button mat-raised-button class="upload-button">Agree &amp; Upload</button>
-            </form>
-        </mat-card>
+<mat-toolbar  mat-raised-button class="navbar button">
+    <img src="../assets/images/logo.svg"><p class="brand-name">AuburnHacks 2019</p>
+</mat-toolbar>
+<br>
+<div *ngIf="show">
+    <mat-card *ngIf="this.canUpload === false">
+        <p class="warning">You've already uploaded a resume</p>
+    </mat-card>
+    <br>
+    <mat-card *ngIf="response.length > 0">
+        <p>{{ response }}</p>
+    </mat-card>
+    <br>
+    <mat-card>
+        <h1 class="title">Résumé Upload</h1>
+        <p>We're delighted that you wish to submit your résumé for our sponsors to look at!</p>
+            
+        <form>
+            <p>For security reasons, we will only accept files in ".pdf" format. Please make sure you convert your documents before submitting your résumé.</p>
+            <div class="center">
+                <button mat-raised-button class="select-file-button" (click)="fileInput.click()">
+                    Select File
+                    <input #fileInput type="file" (change)="onFileInput($event)" style="display: none;" />
+                </button>
+            </div>
+            <br>
+            <!-- <mat-checkbox color="warn">
+                I agree to the terms and privacy policy.
+            </mat-checkbox>
+            <br><br> -->
+            <div class="upload-div">
+                <button *ngIf="!isUploading"mat-raised-button class="upload-button" (click)="uploadResume($event)">
+                    Upload
+                </button>
+                <mat-spinner *ngIf="isUploading" diameter="30" class="upload-spinner"></mat-spinner>
+            </div>
+        </form>
+    </mat-card>
+    <br>
+
+    <mat-card *ngIf="this.canUpload === false">
+        <p>Your resume: </p>
+    </mat-card>
+
+</div>

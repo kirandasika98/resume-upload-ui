@@ -43,6 +43,22 @@
     border-radius: 50px;
 }
 
+.upload-div {
+    text-align: center;
+}
+
+.upload-spinner {
+    margin-left: 50%;
+}
+
+.select-file-button {
+    width: 100%;
+    height: auto;
+    color: whitesmoke;
+    background: #03244d;
+    border-radius: 5px;
+}
+
 .return-button {
     width: fit-content; 
     margin-left: auto; 

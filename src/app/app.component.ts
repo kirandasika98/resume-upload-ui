@@ -10,11 +10,14 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  title = 'app';
+  title = 'Resume Uploads';
   private selectedFile: File;
   private email: string = "testuser@auburhacks.com" 
   private userID: string = "1234";
   private canUpload: boolean = true;
+  private response: string = "";
+  private isUploading: boolean = false;
+  private show: boolean = false;
 
   constructor(private route: ActivatedRoute, private resumeSvc: ResumeService) {}
 
@@ -22,6 +25,7 @@ export class AppComponent implements OnInit{
     console.log(this.userID, this.email);
     this.route.queryParams.subscribe(
       (params) => {
+        this.show = true;
         if (!params["email"] || !params["id"]) {
         } else {
         this.email = params["email"];
@@ -31,7 +35,6 @@ export class AppComponent implements OnInit{
       this.resumeSvc.checkCanUpload(this.userID, this.email)
       .then((canUpload) => {
           if (!canUpload) {
-            alert("you've already uploaded a resume");
             this.canUpload = false;
           }
         },(error) => {alert(error.message);}
@@ -92,5 +95,38 @@ export class AppComponent implements OnInit{
         (error) => { alert(error.message);}
       );
     }
+  }
+
+  public onFileInput(event) {
+    console.log(event.target.files);
+    let reader = new FileReader();
+    if (event.target.files.length != 0)  {
+      const [file] = event.target.files;
+      if (file != undefined) {
+        this.selectedFile = file;
+      }
+    }
+  }
+
+  public uploadResume(event) {
+    if (this.selectedFile == undefined) {
+      return
+    }
+    this.isUploading = true;
+    this.resumeSvc
+    .uploadResume(this.selectedFile, this.userID, this.email)
+    .then(
+      (data) => {
+        if (data["ok"]) {
+          this.response = "Uploaded resume succesfully";
+        } else {
+          this.response = data["error"];
+        }
+        this.isUploading = false;
+      },
+      (error) => {
+        this.response = error;
+      }
+    );
   }
 }
