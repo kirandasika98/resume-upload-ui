@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from './material/material.module';
 import { HttpClientModule } from "@angular/common/http";
 import { FileDropModule } from 'ngx-file-drop';
+import { ResumeService } from './services/resume.service';
+import { RouterModule } from '../../node_modules/@angular/router';
 
 @NgModule({
   declarations: [
@@ -18,9 +20,12 @@ import { FileDropModule } from 'ngx-file-drop';
     FileDropModule,
     HttpClientModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    RouterModule.forRoot([]),
   ],
-  providers: [],
+  providers: [
+    ResumeService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: resume-ui-svc
+    labels:
+        type: help
+spec:
+    selector:
+        app: resume-ui
+    ports:
+        - name: http
+          protocol: TCP
+          port: 80
+          targetPort: 3000

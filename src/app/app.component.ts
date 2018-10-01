@@ -1,14 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UploadEvent, UploadFile, FileSystemDirectoryEntry, 
         FileSystemFileEntry } from 'ngx-file-drop';
+import { ResumeService } from './services/resume.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'app';
+  private selectedFile: File;
+  private email: string = "testuser@auburhacks.com" 
+  private userID: string = "1234";
+  private canUpload: boolean = true;
+
+  constructor(private route: ActivatedRoute, private resumeSvc: ResumeService) {}
+
+  ngOnInit() {
+    console.log(this.userID, this.email);
+    this.route.queryParams.subscribe(
+      (params) => {
+        if (!params["email"] || !params["id"]) {
+        } else {
+        this.email = params["email"];
+        this.userID = params["id"];
+      }
+      // run this service call everytime so we can save space on GCS
+      this.resumeSvc.checkCanUpload(this.userID, this.email)
+      .then((canUpload) => {
+          if (!canUpload) {
+            alert("you've already uploaded a resume");
+            this.canUpload = false;
+          }
+        },(error) => {alert(error.message);}
+      );
+      }
+    );
+  }
 
   public files: UploadFile[] = [];
 
@@ -39,5 +69,28 @@ export class AppComponent {
 
   public fileLeave(event){
     console.log(event);
+  }
+  public onFileChange(event) {
+    // console.log(event);
+    let reader = new FileReader();
+    if (event.target.files && event.target.files.length > 0 && event.target.files.length < 2) {
+      const [file] = event.target.files;
+      if (file != undefined) {
+        this.selectedFile = file;
+      }
+      // TODO: change this to grab the user_id and email from the url
+      this.resumeSvc
+      .uploadResume(file, this.userID, this.email)
+      .then(
+        (data) => {
+          if (data["ok"]) {
+            alert('uploaded successfully.');
+          } else {
+            alert(data["error"]);
+          }
+        },
+        (error) => { alert(error.message);}
+      );
+    }
   }
 }
