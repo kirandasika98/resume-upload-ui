@@ -26,11 +26,10 @@
                 </button>
             </div>
             <br>
-            <!-- <mat-checkbox color="warn">
-                I agree to the terms and privacy policy.
-            </mat-checkbox>
-            <br><br> -->
             <div class="upload-div">
+                <!-- <mat-checkbox *ngIf="!isUploading" color="warn" style="text-align: center;">
+                    I agree to the terms and privacy policy.
+                </mat-checkbox> -->
                 <button *ngIf="!isUploading"mat-raised-button class="upload-button" (click)="uploadResume($event)">
                     Upload
                 </button>

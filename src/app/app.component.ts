@@ -12,17 +12,17 @@ import { ActivatedRoute } from '@angular/router';
 export class AppComponent implements OnInit{
   title = 'Resume Uploads';
   private selectedFile: File;
-  private email: string = "testuser@auburhacks.com" 
+  private email: string = "testuser@auburhacks.com"; 
   private userID: string = "1234";
   private canUpload: boolean = true;
   private response: string = "";
   private isUploading: boolean = false;
-  private show: boolean = false;
+  public show: boolean = false;
+  private checkedTerms: boolean = false;
 
   constructor(private route: ActivatedRoute, private resumeSvc: ResumeService) {}
 
   ngOnInit() {
-    console.log(this.userID, this.email);
     this.route.queryParams.subscribe(
       (params) => {
         this.show = true;
@@ -37,7 +37,9 @@ export class AppComponent implements OnInit{
           if (!canUpload) {
             this.canUpload = false;
           }
-        },(error) => {alert(error.message);}
+        },(error) => {
+          this.response = error;
+        }
       );
       }
     );
@@ -89,10 +91,12 @@ export class AppComponent implements OnInit{
           if (data["ok"]) {
             alert('uploaded successfully.');
           } else {
-            alert(data["error"]);
+            this.response = data["error"];
           }
         },
-        (error) => { alert(error.message);}
+        (error) => {
+          this.response = error;
+        }
       );
     }
   }
@@ -113,20 +117,35 @@ export class AppComponent implements OnInit{
       return
     }
     this.isUploading = true;
-    this.resumeSvc
-    .uploadResume(this.selectedFile, this.userID, this.email)
-    .then(
-      (data) => {
-        if (data["ok"]) {
-          this.response = "Uploaded resume succesfully";
+    if (this.canUpload) {
+      this.resumeSvc
+      .uploadResume(this.selectedFile, this.userID, this.email)
+      .then(
+        (data) => {
+          if (data["ok"]) {
+            this.response = "Uploaded resume succesfully";
+          } else {
+            this.response = data["error"];
+          }
+          this.isUploading = false;
+        },
+        (error) => {
+          this.response = error;
+        }
+      );
+    } else {
+      this.resumeSvc
+      .updateResume(this.selectedFile, this.userID, this.email)
+      .then((data) => {
+        if (data) {
+          this.response = "Resume updated successfully!";
         } else {
-          this.response = data["error"];
+          this.response = "Error occured while updating resume";
         }
         this.isUploading = false;
-      },
-      (error) => {
+      }, (error) => {
         this.response = error;
-      }
-    );
+      });
+    }
   }
 }

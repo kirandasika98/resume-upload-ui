@@ -53,4 +53,25 @@ export class ResumeService {
     });
     return promise;
   }
+
+  public updateResume(selectedFile: File, userId: string, email: string): Promise<boolean> {
+    const formData: FormData = new FormData();
+    formData.append("resume", selectedFile);
+    formData.append("user_id", userId);
+    formData.append("email", email);
+    var promise = new Promise<boolean>((resolve, reject) => {
+        this.http.post(environment.apiEndpoint + "/resumes/update", formData).toPromise()
+        .then((data) => {
+          if (data["ok"]) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        }, (error) => {
+          reject(error);
+        });
+    });
+
+    return promise;
+  }
 }
