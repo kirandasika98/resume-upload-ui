@@ -12,8 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 export class AppComponent implements OnInit{
   title = 'Resume Uploads';
   private selectedFile: File;
-  private email: string = "testuser@auburhacks.com"; 
-  private userID: string = "1234";
+  private email: string = ""; 
+  private userID: string = "";
   private canUpload: boolean = true;
   private response: string = "";
   private isUploading: boolean = false;
