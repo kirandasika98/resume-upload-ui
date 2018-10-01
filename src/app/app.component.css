@@ -1,5 +1,17 @@
 * {
-    font-family: 'Google Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.mat-card {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .brand-name {
