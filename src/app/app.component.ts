@@ -19,6 +19,7 @@ export class AppComponent implements OnInit{
   private isUploading: boolean = false;
   public show: boolean = false;
   private checkedTerms: boolean = false;
+  public resumeLink: string;
 
   constructor(private route: ActivatedRoute, private resumeSvc: ResumeService) {}
 
@@ -35,7 +36,13 @@ export class AppComponent implements OnInit{
       this.resumeSvc.checkCanUpload(this.userID, this.email)
       .then((canUpload) => {
           if (!canUpload) {
-            this.canUpload = false;
+            this.resumeSvc
+            .getResumeInsight(this.userID)
+            .then((resumeInsight: object) => {
+              this.canUpload = false;
+              this.resumeLink = resumeInsight['url'];
+            },
+            (reason) => console.log("reason: " + reason));
           }
         },(error) => {
           this.response = error;
@@ -45,64 +52,7 @@ export class AppComponent implements OnInit{
     );
   }
 
-  public files: UploadFile[] = [];
-
-  public dropped(event: UploadEvent) {
-    this.files = event.files;
-    for (const droppedFile of event.files) {
-
-      // check if it is a valid file
-      if (droppedFile.fileEntry.isFile) {
-        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
-        fileEntry.file((file: File) => {
-
-          // Here you can access the real file
-          console.log(droppedFile.relativePath, file);
-
-        });
-      } else {
-        // It was a directory (empty directories are added, otherwise only files)
-        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
-        console.log(droppedFile.relativePath, fileEntry);
-      }
-    }
-  }
-
-  public fileOver(event){
-    console.log(event);
-  }
-
-  public fileLeave(event){
-    console.log(event);
-  }
-  public onFileChange(event) {
-    // console.log(event);
-    let reader = new FileReader();
-    if (event.target.files && event.target.files.length > 0 && event.target.files.length < 2) {
-      const [file] = event.target.files;
-      if (file != undefined) {
-        this.selectedFile = file;
-      }
-      // TODO: change this to grab the user_id and email from the url
-      this.resumeSvc
-      .uploadResume(file, this.userID, this.email)
-      .then(
-        (data) => {
-          if (data["ok"]) {
-            alert('uploaded successfully.');
-          } else {
-            this.response = data["error"];
-          }
-        },
-        (error) => {
-          this.response = error;
-        }
-      );
-    }
-  }
-
   public onFileInput(event) {
-    console.log(event.target.files);
     let reader = new FileReader();
     if (event.target.files.length != 0)  {
       const [file] = event.target.files;
@@ -130,7 +80,7 @@ export class AppComponent implements OnInit{
           this.isUploading = false;
         },
         (error) => {
-          this.response = error;
+          console.log(error);
         }
       );
     } else {

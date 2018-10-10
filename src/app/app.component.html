@@ -39,8 +39,8 @@
     </mat-card>
     <br>
 
-    <mat-card *ngIf="this.canUpload === false">
-        <p>Your resume: </p>
+    <mat-card *ngIf="this.canUpload === false && this.resumeLink.length != 0">
+        <p>Your resume: <a href="{{ this.resumeLink }}" target="_blank">Click here</a></p>
     </mat-card>
 
 </div>

@@ -19,10 +19,8 @@ export class ResumeService {
     var promise = new Promise<Object>((resolve, reject) => {
       this.http.post(environment.apiEndpoint+"/upload", formData).toPromise()
       .then((data) => {
-        console.log(data);
         resolve(data);
       }, (error) => {
-        console.log(error);
         reject(error)});
     });
 
@@ -73,5 +71,17 @@ export class ResumeService {
     });
 
     return promise;
+  }
+
+  public getResumeInsight(userID: string): Promise<object> {
+    return new Promise<object>((resolve, reject) => {
+      this.http.
+      get<Object>(environment.apiEndpoint + "/resumes/insight/" + userID)
+      .toPromise()
+      .then((resumeInsight: object) => {
+        resolve(resumeInsight);
+      },
+      (reason) => reject(reason))
+    });
   }
 }
